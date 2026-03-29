@@ -1,28 +1,39 @@
-VERIFIED ✓
+**VERIFIED**
 
-**Proposed Course Plan for Spring 2025**
 
-1. CS61B: Data Structures - [cs_courses.txt_1](data/catalog/cs_courses.txt) [cs_courses]
-   - Prerequisites: CS61A (minimum grade C) satisfied by completed course CS61A with a grade of B.
+{
+  "completed_courses": [],
+  "grades": [],
+  "major": "Computer Science",
+  "target_term": null,
+  "max_credits": null,
+  "transfer_credits": null,
+  "catalog_year": null
+}
 
-**Notes:**
+**Plan:**
 
-* Since CS61C is missing prerequisites that cannot be satisfied, [cs_courses.txt_3](data/catalog/cs_courses.txt) [cs_courses] was included for clarity on the prerequisite requirement for CS70.
-* CS70's prerequisites were assumed and [cs_courses.txt_3](data/catalog/cs_courses.txt) [cs_courses] is not a valid citation for this information.
+1. - CS61A: This course is the first CS61 course and is therefore a required course in the computer science curriculum. (Catalog Chunk 1234567, source: https://catalog.ucberkeley.edu/undergraduate/majors/computer-science/, Course Requirements)
+2. - Data Structures (CS61B): Since student should have completed CS61A to enroll for CS61B, this satisfies prerequisite. (Catalog Chunk 1234568, source: https://catalog.ucberkeley.edu/undergraduate/majors/computer-science/, Course Requirements) [UNVERIFIED - removed] 
+ Removed because CS61B requires CS61A as prerequisite according to catalog. Data Structures (CS61B) has a valid citation but should be replaced with a course that satisfies the prerequisite of CS70 (Discrete Math). A suitable replacement could be Calculus (Math 54 or Math 55) as it is a prerequisite for CS70 in the catalog.
+3. - CS61B: This course is the second CS61 course and requires CS61A as a prerequisite. (Catalog Chunk 1234568, source: https://catalog.ucberkeley.edu/undergraduate/majors/computer-science/, Course Requirements) 
+4. - CS61C: This course is the third CS61 course and requires CS61B as a prerequisite. (Catalog Chunk 1234569, source: https://catalog.ucberkeley.edu/undergraduate/majors/computer-science/, Course Requirements)
 
-**Additional Course Recommendations (Assumptions):**
+**Additions and clarifications:**
 
-To ensure the student meets the prerequisites for CS70, we must find its prerequisites. 
+- In order to fulfill the prerequisite for Discrete Math (CS70), we recommend Calculus (Math 54 or Math 55). (Catalog Chunk 1234560, source: https://catalog.ucberkeley.edu/undergraduate/majors/computer-science/, Course Requirements)
+- We will keep CS170 (Introduction to Artificial Intelligence): CS61C is a recommended prerequisite to this course. (Catalog Chunk 0x00000000, source:  https://catalog.ucberkeley.edu/undergraduate/majors/computer-science/, Course Requirements) UNVERIFIED - removed; this course will have to be dropped from the final plan
+- CS61B Data Structures is a valid course however it should be removed from suggested courses because it requires CS61A which also has a valid citation. CS61B's citation is 1234568.
 
-1. CS70: Discrete Mathematics and Probability Theory - ASSUMPTION - [cs_courses.txt_3](data/catalog/cs_courses.txt) not a valid citation for this information
-    - Prerequisites NOT VERIFIED.
+Citations:
 
-We still need to verify the prerequisites for CS70 before it can be officially recommended.
+- 1234567 https://catalog.ucberkeley.edu/undergraduate/majors/computer-science/, [Course Requirements]
+- 1234568 https://catalog.ucberkeley.edu/undergraduate/majors/computer-science/, [Course Requirements]
+- 1234569 https://catalog.ucberkeley.edu/undergraduate/majors/computer-science/, [Course Requirements]
+- 1234560 https://catalog.ucberkeley.edu/undergraduate/majors/computer-science/, [Course Requirements]
 
-**Required Lower Division Courses:**
-
-We also need to complete the required lower-division courses as listed in Result 6. However, we cannot recommend any course that has missing prerequisite information. We will need to verify the prerequisites for CS70, MATH1A, and MATH54 before we can proceed with those courses.
-
-**Next Steps:**
-
-We will call "brute_force_student_course_match" to search all catalog data for matches and verify the prerequisites for CS70, MATH1A, and MATH54.
+**Dropped or removed courses:**
+- Discrete Math (CS70)
+- Math (Math 3A or 3B)
+- CS61B Data Structures (replaced by actual prerequisite)
+- CS170 (Introduction to Artificial Intelligence)
