@@ -1,17 +1,109 @@
-research_task:
+intake_task:
   description: >
-    Conduct a thorough research about {topic}
-    Make sure you find any interesting and relevant information given
-    the current year is {current_year}.
-  expected_output: >
-    A list with 10 bullet points of the most relevant information about {topic}
-  agent: researcher
+    Analyze the following student query and extract all available information:
 
-reporting_task:
-  description: >
-    Review the context you got and expand each topic into a full section for a report.
-    Make sure the report is detailed and contains any and all relevant information.
+    Student Query: {query}
+
+    Extract and normalize:
+    1. Completed courses (with grades if mentioned)
+    2. Target major/program
+    3. Target term (Fall/Spring/Summer)
+    4. Maximum credits/courses they want to take
+    5. Any transfer credits mentioned
+    6. Catalog year (if mentioned)
+
+    If ANY of the above are missing, generate 1-5 clarifying questions.
+    If all info is present, output a clean student profile JSON.
+
+    Output Format:
+    - If incomplete: List clarifying questions only. Stop pipeline.
+    - If complete: Output student profile as JSON.
   expected_output: >
-    A fully fledged report with the main topics, each with a full section of information.
-    Formatted as markdown without '```'
-  agent: reporting_analyst
+    Either a list of clarifying questions (if info is missing)
+    OR a complete student profile JSON with fields:
+    completed_courses, grades, major, target_term, max_credits, transfer_credits
+  agent: intake_agent
+
+retrieval_task:
+  description: >
+    Using the student profile from the intake task, search the course catalog
+    for all relevant information.
+
+    Student Profile: {query}
+
+    You MUST search for:
+    1. Prerequisites for each course the student wants to take
+    2. Program/degree requirements for their major
+    3. Any relevant academic policies (credit limits, grade requirements)
+    4. Co-requisites and exceptions
+
+    For EVERY chunk you retrieve, include:
+    - Source URL
+    - Section heading
+    - Chunk ID
+    - Exact relevant text
+
+    HARD RULE: If you cannot find information in the catalog, explicitly say
+    "NOT FOUND IN CATALOG" — do not guess or invent.
+  expected_output: >
+    A structured list of retrieved catalog chunks, each with:
+    - chunk_id
+    - source_url
+    - section_heading  
+    - relevant_text
+    - relevance_reason (why this chunk is relevant)
+  agent: catalog_retriever_agent
+
+planning_task:
+  description: >
+    Using ONLY the retrieved catalog chunks, create a course plan for the student.
+
+    Rules:
+    1. ONLY recommend courses whose prerequisites are confirmed in retrieved chunks
+    2. EVERY course recommendation must cite its source chunk
+    3. If prerequisite info is missing → mark as ASSUMPTION, do not recommend
+    4. Include a Risks/Assumptions section for anything not in catalog
+
+    Output must follow this EXACT format:
+
+    Answer / Plan: [suggested courses for the term]
+
+    Why (requirements/prereqs satisfied):
+    - Course X: [reason + citation]
+    - Course Y: [reason + citation]
+
+    Citations:
+    - [chunk_id] [source_url] - [section]
+
+    Clarifying Questions (if needed):
+    - [question 1]
+
+    Assumptions / Not in catalog:
+    - [anything assumed or not found]
+  expected_output: >
+    A complete structured course plan following the exact output format with
+    Answer/Plan, Why, Citations, Clarifying Questions, and Assumptions sections.
+  agent: planner_agent
+
+verification_task:
+  description: >
+    Audit the course plan produced by the planner. Check every single claim:
+
+    1. Does every recommended course have a citation?
+    2. Are all citations valid (chunk_id + URL present)?
+    3. Are prerequisites actually satisfied based on student's completed courses?
+    4. Are there any hallucinated facts not in the retrieved chunks?
+    5. Does the output follow the required structured format?
+
+    If issues found:
+    - Remove unsupported claims
+    - Add "UNVERIFIED - removed" note
+    - If too many issues, output: "Plan could not be verified. Please consult advisor."
+
+    If plan is clean:
+    - Output the final verified plan as-is
+    - Add "VERIFIED ✓" at the top
+  expected_output: >
+    Final verified course plan with VERIFIED ✓ status, or a list of issues found
+    with corrected/cleaned output. Every remaining claim must have a citation.
+  agent: verifier_agent
