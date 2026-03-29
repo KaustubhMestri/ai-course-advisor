@@ -199,5 +199,6 @@ python3 src/course_planning_assistant/ingest.py
 ---
 
 ## 📄 License
-
-MIT
+  
+                      Apache License
+                Version 2.0, January 2004
