@@ -1,63 +1,110 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
-from crewai.agents.agent_builder.base_agent import BaseAgent
-# If you want to run a snippet of code before or after the crew starts,
-# you can use the @before_kickoff and @after_kickoff decorators
-# https://docs.crewai.com/concepts/crews#example-crew-class-with-decorators
+from crewai.tools import BaseTool
+import chromadb
+from sentence_transformers import SentenceTransformer
+from pydantic import Field
 
+# ── RAG Tool ─────────────────────────────────────────────────
+embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+chroma_client = chromadb.PersistentClient(path="./chroma_db")
+
+try:
+    collection = chroma_client.get_collection("course_catalog")
+except:
+    collection = chroma_client.create_collection("course_catalog")
+
+class CatalogSearchTool(BaseTool):
+    name: str = "Catalog Search Tool"
+    description: str = "Search the course catalog for prerequisites, program requirements, and academic policies. Always returns results with source URLs and chunk IDs."
+
+    def _run(self, query: str) -> str:
+        query_embedding = embedding_model.encode(query).tolist()
+        results = collection.query(
+            query_embeddings=[query_embedding],
+            n_results=5,
+            include=["documents", "metadatas", "distances"]
+        )
+        if not results["documents"][0]:
+            return "NOT FOUND IN CATALOG: No relevant information found."
+
+        formatted = []
+        for i, (doc, meta, dist) in enumerate(zip(
+            results["documents"][0],
+            results["metadatas"][0],
+            results["distances"][0]
+        )):
+            formatted.append(f"""
+--- Result {i+1} ---
+Chunk ID:   {meta.get('chunk_id', 'N/A')}
+Source:     {meta.get('source_url', 'N/A')}
+Section:    {meta.get('section', 'N/A')}
+Relevance:  {round((1 - dist) * 100, 1)}%
+Content:    {doc}
+""")
+        return "\n".join(formatted)
+
+# ── Crew ─────────────────────────────────────────────────────
 @CrewBase
 class CoursePlanningAssistant():
-    """CoursePlanningAssistant crew"""
+    """Course Planning Assistant Crew"""
 
-    agents: list[BaseAgent]
-    tasks: list[Task]
+    agents_config = 'config/agents.yaml'
+    tasks_config  = 'config/tasks.yaml'
 
-    # Learn more about YAML configuration files here:
-    # Agents: https://docs.crewai.com/concepts/agents#yaml-configuration-recommended
-    # Tasks: https://docs.crewai.com/concepts/tasks#yaml-configuration-recommended
-    
-    # If you would like to add tools to your agents, you can learn more about it here:
-    # https://docs.crewai.com/concepts/agents#agent-tools
     @agent
-    def researcher(self) -> Agent:
+    def intake_agent(self) -> Agent:
         return Agent(
-            config=self.agents_config['researcher'], # type: ignore[index]
+            config=self.agents_config['intake_agent'],
             verbose=True
         )
 
     @agent
-    def reporting_analyst(self) -> Agent:
+    def catalog_retriever_agent(self) -> Agent:
         return Agent(
-            config=self.agents_config['reporting_analyst'], # type: ignore[index]
+            config=self.agents_config['catalog_retriever_agent'],
+            tools=[CatalogSearchTool()],
             verbose=True
         )
 
-    # To learn more about structured task outputs,
-    # task dependencies, and task callbacks, check out the documentation:
-    # https://docs.crewai.com/concepts/tasks#overview-of-a-task
-    @task
-    def research_task(self) -> Task:
-        return Task(
-            config=self.tasks_config['research_task'], # type: ignore[index]
+    @agent
+    def planner_agent(self) -> Agent:
+        return Agent(
+            config=self.agents_config['planner_agent'],
+            verbose=True
+        )
+
+    @agent
+    def verifier_agent(self) -> Agent:
+        return Agent(
+            config=self.agents_config['verifier_agent'],
+            verbose=True
         )
 
     @task
-    def reporting_task(self) -> Task:
+    def intake_task(self) -> Task:
+        return Task(config=self.tasks_config['intake_task'])
+
+    @task
+    def retrieval_task(self) -> Task:
+        return Task(config=self.tasks_config['retrieval_task'])
+
+    @task
+    def planning_task(self) -> Task:
+        return Task(config=self.tasks_config['planning_task'])
+
+    @task
+    def verification_task(self) -> Task:
         return Task(
-            config=self.tasks_config['reporting_task'], # type: ignore[index]
-            output_file='report.md'
+            config=self.tasks_config['verification_task'],
+            output_file='output/final_plan.md'
         )
 
     @crew
     def crew(self) -> Crew:
-        """Creates the CoursePlanningAssistant crew"""
-        # To learn how to add knowledge sources to your crew, check out the documentation:
-        # https://docs.crewai.com/concepts/knowledge#what-is-knowledge
-
         return Crew(
-            agents=self.agents, # Automatically created by the @agent decorator
-            tasks=self.tasks, # Automatically created by the @task decorator
+            agents=self.agents,
+            tasks=self.tasks,
             process=Process.sequential,
-            verbose=True,
-            # process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
+            verbose=True
         )
