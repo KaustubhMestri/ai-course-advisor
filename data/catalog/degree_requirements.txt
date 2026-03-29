@@ -1,0 +1,36 @@
+PROGRAM: BS Computer Science - UC Berkeley
+Total Credits Required: 120
+Catalog Year: 2024-2025
+
+REQUIRED LOWER DIVISION COURSES:
+- CS61A: Structure and Interpretation of Computer Programs
+- CS61B: Data Structures
+- CS61C: Machine Structures
+- CS70: Discrete Mathematics and Probability Theory
+- MATH1A: Calculus
+- MATH54: Linear Algebra and Differential Equations
+
+REQUIRED UPPER DIVISION COURSES:
+- CS170: Efficient Algorithms and Intractable Problems
+- CS186: Introduction to Database Systems
+- CS188: Introduction to Artificial Intelligence
+- One additional upper division CS elective (300-level or above)
+
+BREADTH REQUIREMENTS:
+Students must complete one course from each of the following areas:
+- Theory: CS170 or CS172
+- AI/ML: CS188 or CS189
+- Systems: CS186 or CS162
+- Applications: Any 4xx CS course
+
+ELECTIVES:
+- 4 upper division CS electives required
+- At least 2 must be from the approved CS elective list
+
+RESIDENCY REQUIREMENT:
+- Last 30 credits must be completed at UC Berkeley
+- At least 6 upper division CS courses must be taken at UC Berkeley
+
+GPA REQUIREMENT:
+- Minimum 2.0 overall GPA required for graduation
+- Minimum 2.0 GPA in upper division CS courses

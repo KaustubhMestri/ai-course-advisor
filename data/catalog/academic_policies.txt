@@ -1,0 +1,33 @@
+POLICY: Grading System - UC Berkeley 2024-2025
+
+LETTER GRADES:
+A+, A, A- = Excellent (4.0, 4.0, 3.7)
+B+, B, B- = Good (3.3, 3.0, 2.7)
+C+, C, C- = Satisfactory (2.3, 2.0, 1.7)
+D+, D, D- = Passing (1.3, 1.0, 0.7)
+F = Failing (0.0)
+
+PREREQUISITE POLICY:
+- Minimum grade of C required to use a course as prerequisite
+- D grade does NOT satisfy prerequisite requirements
+- Transfer course equivalencies must be approved by department advisor
+
+REPEAT POLICY:
+- Students may repeat a course maximum of 2 times
+- Both grades appear on transcript
+- Only the most recent grade counts toward GPA
+- Department approval required for third attempt
+
+CREDIT LIMITS:
+- Maximum 20.5 credits per semester without dean approval
+- Minimum 12 credits to be considered full-time
+- Maximum 8 credits over summer session
+
+CO-REQUISITE POLICY:
+- Co-requisites must be taken concurrently in the same semester
+- Cannot substitute a completed course for a co-requisite unless grade was B or above
+- Exceptions require written instructor consent
+
+ACADEMIC PROBATION:
+- GPA below 2.0 results in academic probation
+- Two consecutive semesters on probation may result in dismissal

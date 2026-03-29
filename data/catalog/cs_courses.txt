@@ -1,0 +1,54 @@
+COURSE: CS61A - Structure and Interpretation of Computer Programs
+Credits: 4
+Prerequisites: None
+Description: Introduction to programming and computer science.
+
+COURSE: CS61B - Data Structures
+Credits: 4
+Prerequisites: CS61A (minimum grade C)
+Description: Fundamental dynamic data structures, including linear lists, queues, trees, and other linked structures.
+
+COURSE: CS61C - Machine Structures
+Credits: 4
+Prerequisites: CS61B and CS70
+Description: Number representation, RISC-V assembly language, C programming, memory management.
+
+COURSE: CS70 - Discrete Mathematics and Probability Theory
+Credits: 4
+Prerequisites: CS61A and MATH1A
+Description: Logic, infinity, induction, stable matching, graphs, modular arithmetic, probability.
+
+COURSE: CS170 - Efficient Algorithms and Intractable Problems
+Credits: 4
+Prerequisites: CS61B and CS70 and MATH54
+Description: Design and analysis of algorithms. NP-completeness. Computational complexity.
+
+COURSE: CS186 - Introduction to Database Systems
+Credits: 4
+Prerequisites: CS61B and CS61C
+Description: Relational databases, SQL, query optimization, transactions, concurrency control.
+
+COURSE: CS188 - Introduction to Artificial Intelligence
+Credits: 4
+Prerequisites: CS61B and CS70
+Description: Search, constraint satisfaction, game trees, probabilistic models, machine learning.
+
+COURSE: CS189 - Introduction to Machine Learning
+Credits: 4
+Prerequisites: CS188 and MATH54 and STAT134
+Description: Supervised and unsupervised learning, neural networks, optimization.
+
+COURSE: MATH1A - Calculus
+Credits: 4
+Prerequisites: None
+Description: Introduction to differential and integral calculus.
+
+COURSE: MATH54 - Linear Algebra and Differential Equations
+Credits: 4
+Prerequisites: MATH1A
+Description: Vectors, matrices, eigenvalues, differential equations.
+
+COURSE: STAT134 - Concepts of Probability
+Credits: 4
+Prerequisites: MATH1A
+Description: Random variables, distributions, expectation, central limit theorem.
