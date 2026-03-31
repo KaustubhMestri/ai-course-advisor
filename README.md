@@ -12,7 +12,7 @@ This project is a **multi-agent AI assistant** that answers student course-plann
 
 ## 🏗️ Architecture
 
-
+<img width="551" height="660" alt="Screenshot 2026-03-29 at 8 55 45 PM" src="https://github.com/user-attachments/assets/cc0277c0-fe2b-486d-8dce-8ad05356a4ec" />
 
 ---
 
